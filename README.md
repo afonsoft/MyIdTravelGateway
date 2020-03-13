@@ -1,4 +1,4 @@
-# MyIdTravel
+# MyIdTravel Gateway
 Library for uploading employees on MyIdTravel Gateway V2 - Two-Way SSL - Lufthansa
 
 For framework 4.6.1 
