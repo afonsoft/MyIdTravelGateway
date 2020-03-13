@@ -60,7 +60,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include=".travis.yml" />
     <None Include="app.config" />
+    <None Include="appveyor.yml" />
+    <None Include="myIDTravel TD020 - Gateway v2 Docu v1.3.pdf" />
+    <None Include="MyIdTravelGateway.nuspec" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -79,6 +83,10 @@
     </None>
     <None Include="Web References\com.myidtravel\UploadProfilesResponse.datasource">
       <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="WSDL\gateway-v2.wsdl" />
+    <None Include="WSDL\myidtravel_login.xsd">
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
