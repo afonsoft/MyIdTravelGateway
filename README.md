@@ -12,7 +12,7 @@ Working only **Web Reference**, because need **Web Services Enhancements (WSE) 2
 
 
 ## Documents
-[myIDTravel TD020 - Gateway v2 Docu v1.3.pdf](https://github.com/afonsoft/MyIdTravel/blob/master/myIDTravel%20TS%20-%20StaffProfiles%20Upload%20v1.9.0.pdf)
+[myIDTravel TD020 - Gateway v2 Docu v1.3.pdf](https://github.com/afonsoft/MyIdTravelGateway/blob/master/myIDTravel%20TD020%20-%20Gateway%20v2%20Docu%20v1.3.pdf)
 
 ## URLs
 Environments url
