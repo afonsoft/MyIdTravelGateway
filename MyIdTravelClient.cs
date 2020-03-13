@@ -11,7 +11,7 @@ namespace MyIdTravelGateway
 {
 
     /// <summary>
-    /// MyIdTravelClient - Client for MyIdTravel Upload Satff
+    /// MyIdTravelClient - Client for MyIdTravel Upload Satff Gateway
     /// </summary>
     public class MyIdTravelClient
     {
