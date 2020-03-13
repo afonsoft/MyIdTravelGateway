@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:staff="http://service.login.myidtravel.com"
+  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:gwsv2="http://service.wsgateway-v2.myidtravel.lhsystems.com"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://service.wsgateway-v2.myidtravel.lhsystems.com">
+
+  <wsdl:types>
+
+    <xs:schema version="1.1"
+      targetNamespace="http://service.wsgateway-v2.myidtravel.lhsystems.com"
+      elementFormDefault="qualified">
+
+      <xs:element name="Credentials">
+        <xs:complexType>
+          <xs:attribute name="passphrase" type="xs:token"
+            use="required" />
+          <xs:attribute name="secret" type="xs:token" use="required" />
+        </xs:complexType>
+      </xs:element>
+
+    </xs:schema>
+
+    <xs:schema version="1.1" xmlns:login="http://bos.login.myidtravel.com"
+      elementFormDefault="qualified"
+      targetNamespace="http://service.login.myidtravel.com">
+      <xs:import namespace="http://service.wsgateway-v2.myidtravel.lhsystems.com" />
+      <xs:import namespace="http://bos.login.myidtravel.com"
+        schemaLocation="myidtravel_login.xsd" />
+
+      <xs:element name="MyIdTravelLoginRequest">
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="login:MyIDTravelLoginRequest">
+              <xs:sequence>
+                <xs:element ref="gwsv2:Credentials"
+                  minOccurs="0" />
+              </xs:sequence>
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="LoginByShortenedProfile">
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="login:LoginByShortenedProfile">
+              <xs:sequence>
+                <xs:element ref="gwsv2:Credentials"
+                  minOccurs="0" />
+              </xs:sequence>
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="MyIdTravelLoginResponse" type="login:MyIDTravelLoginResponse" />
+
+      <xs:element name="StaffProfilesUploadRequest">
+        <xs:complexType>
+          <xs:complexContent>
+            <xs:extension base="staff:UploadProfilesRequest">
+              <xs:sequence>
+                <xs:element ref="gwsv2:Credentials"
+                  minOccurs="0" />
+              </xs:sequence>
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="StaffProfilesUploadResponse" type="staff:UploadProfilesResponse" />
+
+      <xs:complexType name="DeleteElement">
+        <xs:attribute name="eID" type="xs:string" use="required" />
+      </xs:complexType>
+      <xs:complexType name="UpdateRecord">
+        <xs:sequence>
+          <xs:element name="employee" type="login:Employee" />
+          <xs:element name="MessageList" type="staff:MessageListType"
+            minOccurs="0" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="DeleteRecord">
+        <xs:sequence>
+          <xs:element name="deleteEmployee" type="staff:DeleteElement" />
+          <xs:element name="MessageList" type="staff:MessageListType"
+            minOccurs="0" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="UploadProfilesRequest">
+        <xs:sequence>
+          <xs:element name="deleteRecord" type="staff:DeleteRecord"
+            minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="updateRecord" type="staff:UpdateRecord"
+            minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="ac" type="xs:string" use="required" />
+      </xs:complexType>
+      <xs:complexType name="UploadProfilesResponse">
+        <xs:sequence>
+          <xs:element name="deleteRecord" type="staff:DeleteRecord"
+            minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="updateRecord" type="staff:UpdateRecord"
+            minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="MessageList" type="staff:MessageListType"
+            minOccurs="0" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="MessageListType">
+        <xs:annotation>
+          <xs:documentation>
+            Contains a list of MessageType elements
+          </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="Message" type="staff:MessageType"
+            nillable="true" minOccurs="0" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="MessageType">
+        <xs:sequence>
+          <xs:element name="Code" type="xs:int" />
+          <xs:element name="Category" type="staff:MessageCategoryType"
+            nillable="true" minOccurs="0" />
+          <xs:element name="Text" type="xs:string" nillable="true"
+            minOccurs="0" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:simpleType name="MessageCategoryType">
+        <xs:annotation>
+          <xs:documentation>
+            The message kind is specified in the
+            following
+            categories
+          </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="UNKNOWN" />
+          <xs:enumeration value="NONE" />
+          <xs:enumeration value="ERROR" />
+          <xs:enumeration value="WARNING" />
+          <xs:enumeration value="INFO" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+
+  </wsdl:types>
+
+  <wsdl:message name="loginRequest">
+    <wsdl:part name="parameters1" element="staff:MyIdTravelLoginRequest" />
+  </wsdl:message>
+  <wsdl:message name="loginResponse">
+    <wsdl:part name="parameters2" element="staff:MyIdTravelLoginResponse" />
+  </wsdl:message>
+
+  <wsdl:message name="loginByShortenedProfileRequest">
+    <wsdl:part name="parameters3" element="staff:LoginByShortenedProfile" />
+  </wsdl:message>
+  <wsdl:message name="loginByShortenedProfileResponse">
+    <wsdl:part name="parameters4" element="staff:MyIdTravelLoginResponse" />
+  </wsdl:message>
+
+  <wsdl:message name="staffProfilesUploadRequest">
+    <wsdl:part name="parameters5" element="staff:StaffProfilesUploadRequest" />
+  </wsdl:message>
+  <wsdl:message name="staffProfilesUploadResponse">
+    <wsdl:part name="parameters6" element="staff:StaffProfilesUploadResponse" />
+  </wsdl:message>
+
+  <wsdl:portType name="GatewayServicePortType">
+    <wsdl:operation name="login">
+      <wsdl:input message="gwsv2:loginRequest" wsaw:Action="urn:login" />
+      <wsdl:output message="gwsv2:loginResponse"
+        wsaw:Action="urn:loginResponse" />
+    </wsdl:operation>
+
+    <wsdl:operation name="loginByShortenedProfile">
+      <wsdl:input message="gwsv2:loginByShortenedProfileRequest" />
+      <wsdl:output message="gwsv2:loginByShortenedProfileResponse" />
+    </wsdl:operation>
+
+    <wsdl:operation name="staffProfilesUpload">
+      <wsdl:input message="gwsv2:staffProfilesUploadRequest"
+        wsaw:Action="urn:staffProfilesUpload" />
+      <wsdl:output message="gwsv2:staffProfilesUploadResponse"
+        wsaw:Action="urn:staffProfilesUpload" />
+    </wsdl:operation>
+
+  </wsdl:portType>
+
+  <wsdl:binding name="GatewayServiceSOAP11Binding" type="gwsv2:GatewayServicePortType">
+    <soap:binding style="document"
+      transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="login">
+      <soap:operation soapAction="urn:login" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="loginByShortenedProfile">
+      <soap:operation soapAction="urn:loginByShortenedProfile"
+        style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="staffProfilesUpload">
+      <soap:operation soapAction="urn:staffProfilesUpload"
+        style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+
+  </wsdl:binding>
+
+  <wsdl:service name="GatewayService">
+    <wsdl:documentation>WSDL File for GatewayService-V2
+    </wsdl:documentation>
+    <wsdl:port name="GatewayService-V2-SOAP11port" binding="gwsv2:GatewayServiceSOAP11Binding">
+      <soap:address
+        location="https://integration.myidtravel.com/services/Gateway_V2" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

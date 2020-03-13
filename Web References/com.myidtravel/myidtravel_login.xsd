@@ -1,0 +1,961 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ns="http://bos.login.myidtravel.com" xmlns="http://bos.login.myidtravel.com" elementFormDefault="qualified" targetNamespace="http://bos.login.myidtravel.com" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:documentation>Login Interface Technical Specification Version
+      4.0.20
+    </xs:documentation>
+  </xs:annotation>
+  <xs:annotation>
+    <xs:documentation xml:lang="en">All Schema files in the
+      OTA specification are made available according to the terms
+      defined by
+      the OTA License Agreement at
+      http://www.opentravel.org/ota_downloads_form.cfm
+    </xs:documentation>
+  </xs:annotation>
+  <xs:complexType name="MasterAccess">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="roles" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>list of roles for MasterAccess user. Allowed
+            roles depend on employing airline.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="isMasterAccess" type="xs:boolean" use="optional">
+      <xs:annotation>
+        <xs:documentation>DEPRECATED - will be removed with a future
+          release.
+          Please use the parent type (MasterAccess) only for
+          master-access-login
+          requests.
+          Please omit the parent type, if
+          you
+          would like to do an enduser-login.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="masterUserID" type="xs:string" use="optional" />
+    <xs:attribute name="firstName" type="xs:string" use="optional" />
+    <xs:attribute name="lastName" type="xs:string" use="optional" />
+    <xs:attribute name="role" type="ns:MasterAccessRole" use="optional">
+      <xs:annotation>
+        <xs:documentation>DEPRECATED - please use roles element
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="extension" type="xs:anySimpleType" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="AdminAccess">
+    <xs:attribute name="adminUserID" type="xs:string" use="required" />
+    <xs:attribute name="firstName" type="xs:string" use="optional" />
+    <xs:attribute name="lastName" type="xs:string" use="optional" />
+    <xs:attribute name="extension" type="xs:anySimpleType" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="Contact">
+    <xs:attribute name="emailAddress" type="xs:anyURI" use="optional" />
+    <xs:attribute name="phone1" type="xs:string" use="optional" />
+    <xs:attribute name="phone2" type="xs:string" use="optional" />
+    <xs:attribute name="mobileNumber" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="PTCAllotment">
+    <xs:attribute name="ptc" type="xs:string" use="required" />
+    <xs:attribute name="counter" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="LockDate">
+    <xs:attribute name="startDate" type="xs:date" use="required" />
+    <xs:attribute name="endDate" type="xs:date" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="EntitledPerson">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="documentIdentifier" type="ns:DocumentIdentifier">
+        <xs:annotation>
+          <xs:documentation>Information regarding the official documents of a
+						person
+					</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="ptc" type="xs:string" use="required" />
+    <xs:attribute name="lastname" type="xs:string" use="required" />
+    <xs:attribute name="firstname" type="xs:string" use="required" />
+    <xs:attribute name="middlename" type="xs:string" />
+    <xs:attribute name="salutation" type="ns:Salutation" />
+    <xs:attribute name="title" type="xs:string" use="optional" />
+    <xs:attribute name="gender" type="ns:Gender" use="optional" />
+    <xs:attribute name="dob" type="xs:date" use="optional">
+      <xs:annotation>
+        <xs:documentation>date of birth</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="isChild" type="xs:boolean" use="optional">
+      <xs:annotation>
+        <xs:documentation>Set to true if entitled person is a child
+				</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="isStudent" type="xs:boolean" use="optional">
+      <xs:annotation>
+        <xs:documentation>Set to true if entitled person is a student
+				</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="taxDependant" type="xs:boolean" use="optional" />
+    <xs:attribute name="tourCodeExt" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>entitled person specific extension for the
+					tourcode
+				</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="extension" type="xs:anySimpleType" use="optional" />
+    <xs:attribute name="startDate" type="xs:date" />
+    <xs:attribute name="endDate" type="xs:date" />
+    <xs:attribute name="externalPersonID" type="xs:string" />
+    <xs:attribute name="disabled" type="xs:boolean" />
+    <xs:attribute name="knownTravellerNumber" type="xs:string" />
+    <xs:attribute name="relationship" type="xs:string" use="optional" />
+    <xs:attribute name="status" type="xs:string" use="optional" />
+    <xs:attribute name="frequentFlyerNumber" type="xs:string" use="optional" />
+    <xs:attribute name="registrationDate" type="xs:date" />
+  </xs:complexType>
+  <xs:complexType name="TravelPackage">
+    <xs:attribute name="startDate" type="xs:date" use="required" />
+    <xs:attribute name="endDate" type="xs:date" />
+    <xs:attribute name="packageName" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="EmploymentStatus">
+    <xs:attribute name="startDate" type="xs:date" use="required" />
+    <xs:attribute name="endDate" type="xs:date" />
+    <xs:attribute name="status" type="ns:EmploymentStatusType" use="required" />
+  </xs:complexType>
+  <xs:simpleType name="EmploymentStatusType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="active" />
+      <xs:enumeration value="absent" />
+      <xs:enumeration value="temporary" />
+      <xs:enumeration value="retired" />
+      <xs:enumeration value="redundant" />
+      <xs:enumeration value="inactive" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="MasterAccessRole">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="MA_DUTY" />
+      <xs:enumeration value="MA_LEISURE" />
+      <xs:enumeration value="DELEGATE_DUTY" />
+      <xs:enumeration value="DELEGATE_LEISURE" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ExtensionsType">
+    <xs:sequence>
+      <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="Salutation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="MR" />
+      <xs:enumeration value="MRS" />
+      <xs:enumeration value="MS" />
+      <xs:enumeration value="CHD" />
+      <xs:enumeration value="INF" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Gender">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="M" />
+      <xs:enumeration value="F" />
+      <xs:enumeration value="U" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Category">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="B" />
+      <xs:enumeration value="C" />
+      <xs:enumeration value="D" />
+      <xs:enumeration value="E" />
+      <xs:enumeration value="F" />
+      <xs:enumeration value="G" />
+      <xs:enumeration value="H" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="OpMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="leisure" />
+      <xs:enumeration value="duty" />
+      <xs:enumeration value="choose" />
+      <xs:enumeration value="non_company" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="DutyTravel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="eligibleForAirlines" type="ns:Airlines" />
+      <xs:element minOccurs="0" name="serviceClassDefinition" type="ns:ServiceClassDefType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="categoryList" type="ns:CategoryList">
+        <xs:annotation>
+          <xs:documentation>Contains the categories of the employee (airline-specific definition)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="dutyServiceClass" type="xs:string" />
+    <xs:attribute name="dutyPriority" type="xs:string" />
+    <xs:attribute name="paymentAccount" type="xs:string" />
+    <xs:attribute name="travelOrder" type="xs:string" />
+    <xs:attribute name="travelOrderNumber" type="xs:string" />
+    <xs:attribute name="grade" type="xs:string" />
+    <xs:attribute name="dutyUpgradePriority" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="LeisureTravel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="eligibleForAirlines" type="ns:Airlines" />
+      <xs:element minOccurs="0" maxOccurs="1" name="categoryList" type="ns:CategoryList">
+        <xs:annotation>
+          <xs:documentation>Contains the categories of the employee (airline-specific definition)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="leisurePriority" type="xs:string" />
+    <xs:attribute name="leisureServiceClass" type="xs:string" />
+    <xs:attribute name="travelWithoutEmployee" type="xs:boolean" />
+  </xs:complexType>
+  <xs:complexType name="DocumentIdentifier">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="document" type="ns:Document" />
+    </xs:sequence>
+    <xs:attribute name="idNumber" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>DEPRECATED - please use document element
+			</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="passportNumber" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>DEPRECATED - please use document element
+			</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="Document">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="documentType" type="ns:DocumentType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="documentNumber" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="expiryDate" type="xs:date" />
+      <xs:element minOccurs="0" maxOccurs="1" name="countryOfIssue" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="dateOfIssue" type="xs:date" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="DocumentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PASSPORT" />
+      <xs:enumeration value="ID_CARD" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="Booking">
+    <xs:attribute name="uniqueID" type="xs:string" />
+    <xs:attribute name="ticketNumber" type="xs:string" />
+    <xs:attribute name="airlineCode" type="xs:string" />
+    <xs:attribute name="lastname" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Airlines">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="Airline" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Flight">
+    <xs:attribute name="flightNumber" type="xs:string" use="required" />
+    <xs:attribute name="airlineCode" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="RouteInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="selectedFlight" type="ns:Flight" />
+    </xs:sequence>
+    <xs:attribute name="airlineCode" type="xs:string" />
+    <xs:attribute name="compartment" type="xs:string" />
+    <xs:attribute name="origin" type="xs:string" use="required" />
+    <xs:attribute name="destination" type="xs:string" use="required" />
+    <xs:attribute name="date" type="xs:string" use="required" />
+    <xs:attribute name="month" type="xs:string" use="required" />
+    <xs:attribute name="time" type="xs:string" />
+    <xs:attribute name="travelStatus" type="xs:string" />
+    <xs:attribute name="reasonId" type="xs:integer">
+      <xs:annotation>
+        <xs:documentation>unique identifier that represents a reason for
+          traveling
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="Employee">
+    <xs:sequence>
+      <xs:element name="employment" type="ns:Employment" />
+      <xs:element minOccurs="0" name="accounting" type="ns:Accounting" />
+      <xs:element minOccurs="0" name="contact" type="ns:Contact" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="lock-date" type="ns:LockDate" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ptc-allotment" type="ns:PTCAllotment" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="entitled-person" type="ns:EntitledPerson" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="employment-status" type="ns:EmploymentStatus" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="travel-package" type="ns:TravelPackage" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="extension" type="xs:anyType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="extensions" type="ns:ExtensionsType" />
+      <xs:element minOccurs="0" name="dutyTravel" type="ns:DutyTravel">
+        <xs:annotation>
+          <xs:documentation>Duty travel related information
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="leisureTravel" type="ns:LeisureTravel">
+        <xs:annotation>
+          <xs:documentation>Leisure travel related information
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="documentIdentifier" type="ns:DocumentIdentifier">
+        <xs:annotation>
+          <xs:documentation>Information regarding the official documents of a person
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="approvalInformation" type="ns:ApprovalInformation">
+        <xs:annotation>
+          <xs:documentation>Approval section for approval related information</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="userRoles" type="ns:UserRoles">
+        <xs:annotation>
+          <xs:documentation>User Roles section for to determine the roles of the employee</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="ptc" type="xs:string" use="required" />
+    <xs:attribute name="lastname" type="xs:string" use="required" />
+    <xs:attribute name="firstname" type="xs:string" use="required" />
+    <xs:attribute name="middlename" type="xs:string" use="optional" />
+    <xs:attribute name="salutation" type="ns:Salutation" use="optional" />
+    <xs:attribute name="title" type="xs:string" use="optional" />
+    <xs:attribute name="gender" type="ns:Gender" use="optional" />
+    <xs:attribute name="dob" type="xs:date" use="optional">
+      <xs:annotation>
+        <xs:documentation>date of birth</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="dhc" type="xs:boolean" use="optional">
+      <xs:annotation>
+        <xs:documentation>dead head crew</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="currency" type="xs:string" use="optional" />
+    <xs:attribute name="countryOfRes" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>country of residence</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="tourCodeExt" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>employee specific extension for the tourcode
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="familyStatus" type="xs:string" />
+    <xs:attribute name="anniversaryFlightDate" type="xs:date" />
+    <xs:attribute name="alternativeJoiningDate" type="xs:date" />
+    <xs:attribute name="noTicketBeforeDate" type="xs:date" />
+    <xs:attribute name="expatriate" type="xs:boolean" />
+    <xs:attribute name="knownTravellerNumber" type="xs:string" />
+    <xs:attribute name="reinvoiced" type="xs:string" />
+    <xs:attribute name="frequentFlyerNumber" type="xs:string" use="optional" />
+    <xs:attribute name="remark" type="xs:string" use="optional" />
+    <xs:anyAttribute processContents="lax" />
+  </xs:complexType>
+  <xs:complexType name="UserRoles">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="userRole" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>User Role of the employee</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ApprovalInformation">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="approvers" type="ns:Approvers">
+        <xs:annotation>
+          <xs:documentation>Assigned approvers for the employee</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Approvers">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="approver" type="ns:Approver">
+        <xs:annotation>
+          <xs:documentation>Assigned approvers for the employee</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Approver">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="employeeID" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="firstName" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="lastName" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="eMail" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="indicator" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Employment">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="stationsOfWork" type="ns:StationsOfWork" />
+      <xs:element name="vipEmployee" type="xs:boolean">
+        <xs:annotation>
+          <xs:documentation>Indicates if an Employee is a VIP Traveller
+                     which has the result that the normal Master Access users cannot open the flights and trips from this employee.
+                     Only dedicated VIP Master Access users can open the details.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="eID" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>employee ID</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="secondaryID" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>secondary employee ID</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="subCompany" type="xs:string" use="optional" />
+    <xs:attribute name="subCategory" type="ns:Category" use="optional" />
+    <xs:attribute name="department" type="xs:string" use="optional" />
+    <xs:attribute name="laborGroup" type="xs:string" use="optional" />
+    <xs:attribute name="group" type="xs:string" use="optional" />
+    <xs:attribute name="doj" type="xs:date" use="required">
+      <xs:annotation>
+        <xs:documentation>date of joining</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="dot" type="xs:date" use="optional">
+      <xs:annotation>
+        <xs:documentation>date of termination</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="employmentStatus" type="ns:EmploymentStatusType" use="optional" />
+    <xs:attribute name="FKZeichen" type="xs:string" use="optional" />
+    <xs:attribute name="oalTravelEligible" type="xs:boolean" use="optional">
+      <xs:annotation>
+        <xs:documentation>Deprecated: Use eligibilityDuty and/or
+          eligibilityLeisure instead. Defines if the employee is
+          eligible for
+          travelling
+          on other airlines
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="externalPersonID" type="xs:string" />
+    <xs:attribute name="eligibilityDuty" type="ns:TravelEligibility" use="optional">
+      <xs:annotation>
+        <xs:documentation>Defines what types of duty travel bookings the
+          employee may do (interlining/non-interlining)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="eligibilityLeisure" type="ns:TravelEligibility" use="optional">
+      <xs:annotation>
+        <xs:documentation>Defines what types of leisure travel bookings
+          the
+          employee may do (interlining/non-interlining)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="actionCode" type="xs:string" />
+    <xs:attribute name="idDutyOnly" type="xs:boolean" />
+    <xs:attribute name="fringeBenefitTravelRule" type="xs:boolean" />
+    <xs:attribute name="stationOfWork" type="xs:string" />
+    <xs:attribute name="homeBaseCountry" type="xs:string" />
+    <xs:attribute name="proflugEntitled" type="xs:boolean" />
+    <xs:attribute name="retireeTravelRule" type="xs:boolean" />
+    <xs:attribute name="terminationReason" type="xs:string" />
+    <xs:attribute name="retireeDate" type="xs:date" />
+    <xs:attribute name="managerEmailDuty" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>max. length 200</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="managerEmailLeisure" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>max. length 200</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="homeFlightEligible" type="xs:boolean" use="optional" />
+    <xs:attribute name="grade" type="xs:string" use="optional" />
+    <xs:attribute name="cityCode" type="xs:string" />
+    <xs:attribute name="yearsOfService" type="xs:decimal" use="optional" />
+    <xs:attribute name="f2FlightEligible" type="xs:boolean" />
+    <xs:attribute name="tPTravelWithoutEmployee" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>Travel Partner travel without employee flag</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="Accounting">
+    <xs:attribute name="costCenter" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>Cost Center of the employee</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="additionalCostCenter" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>Additional Cost Center of the employee</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="setOfBooks" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>in german Buchungskreis</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="salaryDeduction" type="xs:boolean" use="optional" />
+    <xs:attribute name="salaryGrade" type="ns:SalaryGrade" use="optional" />
+    <xs:attribute name="employeeBenefitTaxable" type="xs:boolean" use="optional">
+      <xs:annotation>
+        <xs:documentation>in german: Geldwerter Vorteil zu versteuern
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="formOfPayment" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>optional - the FormOfPayment (FOP, e.g. CASH,
+          IDBANK, SEPA) which is associated with the employee.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="iban" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="ServiceClassDefType">
+    <xs:attribute name="serviceClass" type="ns:ServiceClassType" use="required">
+      <xs:annotation>
+        <xs:documentation>the maximum allowed service class (e.g.
+          'Y'[Economy], 'C'[Business], 'F'[FirstClass])
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="minRequiredMilageZone" type="xs:int">
+      <xs:annotation>
+        <xs:documentation>the minimal required milage zone a segment
+          must have to be able to use the maximum allowed service class
+          on that segment
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="LoginByShortenedProfile">
+    <xs:attribute name="uID" type="xs:string" use="required" />
+    <xs:attribute name="ac" type="xs:string" use="required" />
+    <xs:attribute name="opMode" type="ns:OpMode" use="required" />
+    <xs:attribute name="switchBackURL" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="MyIDTravelLoginRequest">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="employee" type="ns:Employee">
+        <xs:annotation>
+          <xs:documentation>Employee related information
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="dutyTravel" type="ns:DutyTravel">
+        <xs:annotation>
+          <xs:documentation>DEPRECATED - please use dutyTravel element
+            inside employee element
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="leisureTravel" type="ns:LeisureTravel">
+        <xs:annotation>
+          <xs:documentation>DEPRECATED - please use leisureTravel
+            element inside employee element
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="booking" type="ns:Booking">
+        <xs:annotation>
+          <xs:documentation>Existing booking for employee
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="routeInfo" type="ns:RouteInfo">
+        <xs:annotation>
+          <xs:documentation>routing information</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="master-access" type="ns:MasterAccess" />
+      <xs:element minOccurs="0" name="admin-access" type="ns:AdminAccess" />
+    </xs:sequence>
+    <xs:attribute name="ac" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>Airline code</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="aID" type="xs:integer" use="optional" />
+    <xs:attribute name="opMode" type="ns:OpMode" use="required">
+      <xs:annotation>
+        <xs:documentation>Mode for myIDTravel application, e.g.
+          leisure
+          or
+          duty
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="prefLanguage" type="xs:language" use="optional">
+      <xs:annotation>
+        <xs:documentation>Preferred language for myIDTravel
+          application
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="action" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>e.g. TICKET_RETRIEVAL, PNR_RETRIEVAL,
+          FLIGHT_SCHEDULE_OUTPUT
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="switchBackURL" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>URL for switching to MTE
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="MyIDTravelLoginResponse">
+    <xs:sequence>
+      <xs:element name="creationTimestamp" type="xs:dateTime" />
+      <xs:element name="expirationTimestamp" type="xs:dateTime" />
+      <xs:choice>
+        <xs:sequence>
+          <xs:element name="Success" type="ns:SuccessType">
+            <xs:annotation>
+              <xs:documentation xml:lang="en"> Standard
+                way
+                to
+                indicate successful processing. Returning an
+                empty
+                element of this
+                type indicates success.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element minOccurs="0" name="Warnings" type="ns:WarningsType">
+            <xs:annotation>
+              <xs:documentation xml:lang="en">Standard way
+                to
+                indicate successful processing, but one in which
+                warnings are
+                generated.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="token" type="xs:string" />
+          <xs:element name="url" type="xs:string" />
+        </xs:sequence>
+        <xs:element name="Errors" type="ns:ErrorsType">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">A collection
+              of
+              errors
+              that occurred during the processing of a
+              message.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:choice>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SuccessType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Standard way to
+        indicate
+        successful processing of an OTA message. Returning an
+        empty element
+        of this type indicates success.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:complexType>
+  <xs:complexType name="ErrorType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Standard way to
+        indicate
+        that an error occurred during the processing of an OTA
+        message
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="ns:FreeTextType">
+        <xs:attribute name="Type" type="ns:OTA_CodeType" use="required">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">The Error
+              element MUST
+              contain the Type attribute that uses a
+              recommended set of values
+              to indicate the error type. The
+              validating XSD can expect to
+              accept values that it has NOT
+              been explicitly coded for and
+              process them by using Type
+              ="Unknown". Refer to OTA Code List
+              Error Warning Type
+              (EWT).
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attributeGroup ref="ns:ErrorWarningAttributeGroup" />
+        <xs:attribute name="NodeList" type="xs:string">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">An XPath
+              expression
+              that selects all the nodes whose data caused
+              this error. Further,
+              this expression should have an
+              additional contraint which contains
+              the data of the node.
+              This will provide the offending data back to
+              systems that
+              cannot maintain the original message.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ErrorsType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">A collection of errors
+        that occurred during the processing of a message.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element maxOccurs="99" name="Error" type="ns:ErrorType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="WarningType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Standard way to
+        indicate
+        successful processing of an OTA message, but one in
+        which warnings
+        are generated
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="ns:FreeTextType">
+        <xs:attribute name="Type" type="ns:OTA_CodeType" use="required">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">The Warning
+              element
+              MUST contain the Type attribute that uses a
+              recommended set of
+              values to indicate the warning type.
+              The
+              validating XSD can expect
+              to accept values that it has
+              NOT
+              been explicitly coded for and
+              process them by using
+              Type
+              ="Unknown". Refer to OTA Code List
+              Error Warning Type
+              (EWT).
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attributeGroup ref="ns:ErrorWarningAttributeGroup" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="WarningsType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Collection of
+        warnings.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element maxOccurs="99" name="Warning" type="ns:WarningType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FreeTextType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Textual information to
+        provide descriptions and/or additional information.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attributeGroup ref="ns:LanguageGroup" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:attributeGroup name="ErrorWarningAttributeGroup">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Used to identify an
+        application error by either text, code, or by an online
+        description
+        and also to give the status, tag, and/or
+        identification of the record
+        that may have caused the error.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="ShortText" type="ns:StringLength1to64" use="optional" />
+    <xs:attribute name="Code" type="ns:OTA_CodeType" use="optional">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">If present, this
+          refers
+          to a table of coded values exchanged between
+          applications to
+          identify errors or warnings. Refer to OTA Code
+          List Error Codes
+          (ERR).
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="DocURL" type="xs:anyURI" use="optional">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">If present, this URL
+          refers to an online description of the error that occurred.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Status" type="ns:StringLength1to64" use="optional">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">If present,
+          recommended
+          values are those enumerated in the OTA_ErrorRS,
+          (NotProcessed |
+          Incomplete | Complete | Unknown) however, the
+          data type is
+          designated as string data, recognizing that
+          trading partners may
+          identify additional status conditions not
+          included in the
+          enumeration.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Tag" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">If present, this
+          attribute may identify an unknown or misspelled tag that
+          caused an
+          error in processing. It is recommended that the Tag
+          attribute use
+          XPath notation to identify the location of a tag
+          in the event that
+          more than one tag of the same name is
+          present
+          in the document.
+          Alternatively, the tag name alone can
+          be used
+          to identify missing
+          data [Type=ReqFieldMissing].
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="RecordID" type="ns:StringLength1to64" use="optional">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">If present, this
+          attribute allows for batch processing and the identification
+          of the
+          record that failed amongst a group of records. This
+          value may
+          contain a concatenation of a unique failed
+          transaction ID with
+          specific record(s) associated with that
+          transaction.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="LanguageGroup">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Identifies language.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="Language" type="xs:language" use="optional">
+      <xs:annotation>
+        <xs:documentation xml:lang="en">Language
+          identification.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:attributeGroup>
+  <xs:simpleType name="OTA_CodeType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Used for codes in the
+        OTA
+        code tables. Possible values of this pattern are 1, 101,
+        101.EQP, or
+        101.EQP.X.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9A-Z]{1,3}(\.[A-Z]{3}(\.X){0,1}){0,1}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="StringLength1to64">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Used for Character
+        Strings, length 1 to 64
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1" />
+      <xs:maxLength value="64" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="TravelEligibility">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NONE" />
+      <xs:enumeration value="ONLINE" />
+      <xs:enumeration value="GROUP" />
+      <xs:enumeration value="OFFLINE" />
+      <xs:enumeration value="ONLINE_OFFLINE" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ServiceClassType">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">The service class,
+        where Y=Economy,
+        C=Business, F=FirstClass
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Y" />
+      <xs:enumeration value="C" />
+      <xs:enumeration value="F" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SalaryGrade">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Group_1" />
+      <xs:enumeration value="Group_2" />
+      <xs:enumeration value="Group_3" />
+      <xs:enumeration value="Group_4" />
+      <xs:enumeration value="Group_5" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="StationsOfWork">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="stationOfWork" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Station of work of the employee</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CategoryList">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="category" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Category of the employee (airline-specific definition)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
